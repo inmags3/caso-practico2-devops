@@ -1,0 +1,19 @@
+- name: configurar vm
+  hosts: vm
+  become: yes
+
+  tasks:
+    - name: actualizar paquetes
+      apt:
+        update_cache: yes
+
+    - name: instalar podman
+      apt:
+        name: podman
+        state: present
+
+    - name: ejecutar contenedor nginx
+      command: podman run -d -p 80:80 docker.io/library/nginx
+
+    - name: comprobar contenedores
+      command: podman ps
